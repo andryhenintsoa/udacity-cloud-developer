@@ -31,7 +31,24 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
 
   app.get('/filteredimage',
     async (req, res) => {
-      res.status(400).send({"error":"Missing parameters"});
+      
+      let url = req.query.image_url;
+      // TODO : Missing parameters, invalid link, not image link, OK
+      if(!url){
+        res.status(400).send({"error":"Missing parameters"});
+        return;
+      }
+
+      try {
+        let filteredpath = await filterImageFromURL(url);
+        res.status(200).sendFile(filteredpath, () => {
+          deleteLocalFiles([filteredpath]);
+        });
+        
+      } catch (error) {
+        res.status(422).send({"error":"Server couldn't process the link"});
+      }
+
     });
 
   //! END @TODO1
