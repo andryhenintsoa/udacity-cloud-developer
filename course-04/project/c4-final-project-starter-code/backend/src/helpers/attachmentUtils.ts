@@ -4,7 +4,7 @@ import * as AWSXRay from 'aws-xray-sdk'
 const XAWS = AWSXRay.captureAWS(AWS)
 
 // TODO: Implement the fileStogare logic
-import * as dbAccessor from './todosAcess';
+import * as dbAccessor from '../dataLayer/todosAcess';
 
 const s3 = new XAWS.S3({ signatureVersion: 'v4' });
 
